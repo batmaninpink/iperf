@@ -131,6 +131,8 @@ run(struct iperf_test *test)
 {
     int consecutive_errors;
 
+    signal(SIGCHLD, SIG_IGN);
+
     /* Termination signals. */
     iperf_catch_sigend(sigend_handler);
     if (setjmp(sigend_jmp_buf))
@@ -175,6 +177,12 @@ run(struct iperf_test *test)
             usage();
             break;
     }
+
+    fflush(stdout);
+    fflush(stderr);
+    sleep(2);
+    fflush(stdout);
+    fflush(stderr);
 
     iperf_catch_sigend(SIG_DFL);
 
